@@ -1,0 +1,28 @@
+package route
+
+import (
+	"Lab2/user/controller"
+	"github.com/gin-gonic/gin"
+)
+
+func SetRouter() *gin.Engine {
+	r := gin.Default()
+
+	/**
+	  用户User路由组
+	*/
+	userGroup := r.Group("user")
+	{
+		//增加用户User
+		userGroup.POST("/register", controller.CreateUser)
+		//查看所有的User
+		userGroup.GET("", controller.GetUserList)
+		userGroup.GET("/:stuffNo", controller.GetUserByStuffNo)
+		//修改某个User
+		userGroup.PUT("/:stuffNo", controller.UpdateUser)
+		//删除某个User
+		userGroup.DELETE("/:stuffNo", controller.DeleteUserByStuffNo)
+	}
+
+	return r
+}
