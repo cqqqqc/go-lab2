@@ -15,6 +15,7 @@ func SetRouter() *gin.Engine {
 	{
 		//增加用户User
 		userGroup.POST("/register", controller.CreateUser)
+		userGroup.POST("/login", controller.Login)
 		//查看所有的User
 		userGroup.GET("", controller.GetUserList)
 		userGroup.GET("/:stuffNo", controller.GetUserByStuffNo)

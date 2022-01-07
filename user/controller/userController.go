@@ -7,6 +7,35 @@ import (
 	"net/http"
 )
 
+type login struct {
+	UserName string `json:"name" form:"name" binding:"required"`
+	Password string `json:"password" form:"password" binding:"required"`
+}
+
+func Login(c *gin.Context) {
+	var loginInfo login
+	c.BindJSON(&loginInfo)
+	name := loginInfo.UserName
+	password := loginInfo.Password
+	//先判断用户是否存在，存在再判断密码是否正确
+	user, err := service.GetUserByName(name)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		if password != user.Password {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"code": 400,
+				"msg":  "wrong password",
+			})
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"code": 200,
+				"msg":  "success",
+			})
+		}
+	}
+}
+
 func CreateUser(c *gin.Context) {
 	//定义一个User变量
 	var user entity.User
@@ -25,6 +54,7 @@ func CreateUser(c *gin.Context) {
 		})
 	}
 }
+
 func GetUserList(c *gin.Context) {
 	userList, err := service.GetAllUser()
 	if err != nil {

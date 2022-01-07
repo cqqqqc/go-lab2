@@ -29,6 +29,12 @@ func GetUserByStuffNo(stuffNo string) (user *entity.User, err error) {
 	}
 	return
 }
+func GetUserByName(name string) (user *entity.User, err error) {
+	if err = dao.Db.Where("name=?", name).First(&user).Error; err != nil {
+		return nil, err
+	}
+	return
+}
 func UpdateUser(user *entity.User) (err error) {
 	tx := dao.Db.Model(&user).Updates(&entity.User{
 		StuffNo:    user.StuffNo,
@@ -42,4 +48,7 @@ func UpdateUser(user *entity.User) (err error) {
 		return tx
 	}
 	return
+}
+func login() {
+
 }
