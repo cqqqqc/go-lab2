@@ -3,8 +3,18 @@ package service
 import (
 	"Lab2/task/dao"
 	"Lab2/task/entity"
+	"math/rand"
 )
 
+var letters = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
 func CreateTask(task *entity.Task) (err error) {
 	if err = dao.Db.Create(task).Error; err != nil {
 		return err
