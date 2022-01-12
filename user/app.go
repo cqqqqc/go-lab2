@@ -39,7 +39,7 @@ func main() {
 	//注册路由
 	r := route.SetRouter()
 
-	conn, err := amqp.Dial("amqp://guest:guest@127.0.0.1:5672")
+	conn, err := amqp.Dial("amqp://admin:admin@47.100.60.194:5672")
 	if err != nil {
 		fmt.Println("dial")
 		log.Fatal(err)
