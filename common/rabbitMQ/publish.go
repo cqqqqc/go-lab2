@@ -39,7 +39,8 @@ func (r *RabbitMQ) PublishgRouting(data entity.SimpleDemo) {
 		false,
 		false,
 		amqp.Publishing{
-			ContentType: "text/plain",
-			Body:        dataBytes,
+			DeliveryMode: amqp.Persistent,
+			ContentType:  "text/plain",
+			Body:         dataBytes,
 		})
 }

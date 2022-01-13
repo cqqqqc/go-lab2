@@ -27,7 +27,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 	//2、试探性创建队列，这里注意队列名称不要写
 	q, err := r.channel.QueueDeclare(
 		"", //随机生产队列名称
-		false,
+		true,
 		false,
 		true,
 		false,
@@ -49,7 +49,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 	msgs, err := r.channel.Consume(
 		q.Name,
 		"",
-		true,
+		false,
 		false,
 		false,
 		false,
@@ -76,6 +76,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 			user.Password = "123456"
 			user.Active = false
 			service.CreateUser(&user)
+			v.Ack(true)
 		}
 	}()
 }
