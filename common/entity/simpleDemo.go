@@ -6,4 +6,5 @@ type SimpleDemo struct {
 	Department string `json:"department"`
 	Password   string `json:"password"`
 	Active     bool   `json:"active"`
+	Info       string `json:"info"`
 }

@@ -2,14 +2,10 @@ package controller
 
 import (
 	commonEntity "Lab2/common/entity"
-	commonService "Lab2/common/service"
+	"Lab2/common/rabbitMQ"
 	"Lab2/employee/entity"
 	"Lab2/employee/service"
-	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/streadway/amqp"
-	"log"
 	"net/http"
 )
 
@@ -19,72 +15,26 @@ func CreateEmployee(c *gin.Context) {
 	//将调用后端的request请求中的body数据根据json格式解析到User结构变量中
 	c.BindJSON(&employee)
 
-	//客户端连接消息队列
-	//conn, err := amqp.Dial("amqp://guest:guest@127.0.0.1:5672")
-	conn, err := amqp.Dial("amqp://admin:admin@47.100.60.194:5672")
-	if err != nil {
-		fmt.Println("dial")
-		log.Fatal(err)
-	}
-	defer conn.Close()
-	//获取通道，所有操作基本都是通道控制的
-	ch, err := conn.Channel()
-	if err != nil {
-		log.Fatal(err)
-	}
-	err = ch.ExchangeDeclare(
-		"logs",   // name
-		"fanout", // type
-		false,    // durable
-		false,    // auto-deleted
-		false,    // internal
-		false,    // no-wait
-		nil,      // arguments
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-	//队列声明
-	q, err := ch.QueueDeclare(
-		"name",
-		false,
-		false,
-		false,
-		false,
-		nil,
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-	data := commonEntity.SimpleDemo{
+	userData := commonEntity.SimpleDemo{
 		Name:       employee.Name,
 		StuffNo:    employee.StuffNo,
 		Department: employee.Department,
 		Password:   "123456",
 		Active:     false,
+		Info:       "user",
 	}
-	dataBytes, err := json.Marshal(data)
-	if err != nil {
-		commonService.ErrorHanding(err, "struct to json failed")
+	taskData := commonEntity.SimpleDemo{
+		Name:       employee.Name,
+		StuffNo:    employee.StuffNo,
+		Department: employee.Department,
+		Password:   "123456",
+		Active:     false,
+		Info:       "task",
 	}
-	for i := 1; i <= 2; i++ {
-		//发送消息
-		err = ch.Publish(
-			"logs",
-			q.Name,
-			false,
-			false,
-			amqp.Publishing{
-				//DeliveryMode: amqp.Persistent,
-				ContentType: "application/json",
-				Body:        dataBytes, //消息的内容
-			},
-		)
-	}
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	rabbitMQOne := rabbitMQ.NewRabbitMQRouting("name", "user")
+	rabbitMQTwo := rabbitMQ.NewRabbitMQRouting("name", "task")
+	rabbitMQOne.PublishgRouting(userData)
+	rabbitMQTwo.PublishgRouting(taskData)
 
 	//将被转换的user变量传给service层的CreateUser方法，进行User的新建
 	employeeErr := service.CreateEmployee(&employee)
