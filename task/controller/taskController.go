@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"Lab2/task/entity"
-	"Lab2/task/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"task/entity"
+	"task/service"
 )
 
 func CreateTask(c *gin.Context) {

@@ -1,8 +1,8 @@
 package route
 
 import (
-	"Lab2/task/controller"
 	"github.com/gin-gonic/gin"
+	"task/controller"
 )
 
 func SetRouter() *gin.Engine {

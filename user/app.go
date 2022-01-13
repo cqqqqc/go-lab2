@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/go-ini/ini"
 	"os"
+	. "user/consumer"
 	"user/dao"
-	"user/entity"
-	"user/rabbitMQ"
+	. "user/entity"
 	"user/route"
 )
 
@@ -24,8 +24,8 @@ func main() {
 	//程序退出关闭数据库连接
 	//defer dao.Close()
 	//绑定模型
-	dao.Db.AutoMigrate(&entity.User{})
-	httpPort, err := ini.Load("user/conf/app.init")
+	dao.Db.AutoMigrate(&User{})
+	httpPort, err := ini.Load("conf/app.init")
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
@@ -33,8 +33,7 @@ func main() {
 	runPort := httpPort.Section("server").Key("HttpPort").String()
 	//注册路由
 	r := route.SetRouter()
-
-	rabbimq := rabbitMQ.NewRabbitMQRouting("name", "user")
+	rabbimq := NewRabbitMQ("name", "exchange", "user")
 	rabbimq.UserReceiveRouting()
 
 	//启动端口为8085的项目

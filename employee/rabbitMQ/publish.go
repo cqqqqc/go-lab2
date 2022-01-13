@@ -1,9 +1,9 @@
 package rabbitMQ
 
 import (
-	"common/entity"
 	"common/service"
 	"encoding/json"
+	"entity"
 	"github.com/streadway/amqp"
 )
 

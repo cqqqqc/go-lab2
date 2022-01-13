@@ -1,16 +1,16 @@
-package rabbitMQ
+package consumer
 
 import (
-	commonEntity "Lab2/common/entity"
-	"Lab2/user/entity"
-	"Lab2/user/service"
 	"encoding/json"
 	"fmt"
+	. "github.com/gityh2021/lab2common"
 	"reflect"
+	"task/entity"
+	"task/service"
 )
 
 //路由模式Step：3、路由模式下消费代码
-func (r *RabbitMQ) UserReceiveRouting() {
+func (r *RabbitMQ) TaskReceiveRouting() {
 	//1、试探性创建交换机
 	err := r.channel.ExchangeDeclare(
 		r.Exchange,
@@ -59,7 +59,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 	//5、启动协程处理消息
 	//消费者会一直监听管道，启用协程
 	go func() {
-		var demo commonEntity.SimpleDemo
+		var demo SimpleDemo
 		for v := range msgs {
 			fmt.Printf("body = %s\n", v.Body)
 			fmt.Println(reflect.TypeOf(v.Body))
@@ -69,13 +69,10 @@ func (r *RabbitMQ) UserReceiveRouting() {
 				fmt.Println(err)
 			}
 			fmt.Println(demo.Password)
-			var user entity.User
-			user.Name = demo.Name
-			user.StuffNo = demo.StuffNo
-			user.Department = demo.Department
-			user.Password = "123456"
-			user.Active = false
-			service.CreateUser(&user)
+			var task entity.Task
+			task.StuffNo = demo.StuffNo
+			task.TaskNo = service.RandSeq(4)
+			service.CreateTask(&task)
 		}
 	}()
 }

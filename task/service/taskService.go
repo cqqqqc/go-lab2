@@ -1,9 +1,9 @@
 package service
 
 import (
-	"Lab2/task/dao"
-	"Lab2/task/entity"
 	"math/rand"
+	"task/dao"
+	"task/entity"
 )
 
 var letters = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")

@@ -67,6 +67,7 @@ func GetUserList(c *gin.Context) {
 		})
 	}
 }
+
 func UpdateUser(c *gin.Context) {
 	//定义一个User变量
 	var user entity.User

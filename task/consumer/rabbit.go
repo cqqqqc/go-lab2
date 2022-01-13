@@ -1,4 +1,4 @@
-package rabbitMQ
+package consumer
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"log"
 )
 
-//url格式 amqp://账号:密码@rabbitmq服务器地址:端口号/vhost
+// url格式 amqp://账号:密码@rabbitmq服务器地址:端口号/vhost
 const MQURL = "amqp://admin:admin@47.100.60.194:5672"
 
 type RabbitMQ struct {
@@ -18,8 +18,8 @@ type RabbitMQ struct {
 	Mqurl     string //连接信息
 }
 
-//断开channel和connection
-func (r *RabbitMQ) Destoryy() {
+// 断开channel和connection
+func (r *RabbitMQ) Destory() {
 	r.channel.Close()
 	r.conn.Close()
 }
@@ -32,7 +32,7 @@ func (r *RabbitMQ) failOnErr(err error, message string) {
 	}
 }
 
-//创建RabbitMQ结构体实例
+// 创建RabbitMQ结构体实例
 func NewRabbitMQ(queueName string, exchange string, key string) *RabbitMQ {
 	rabbitMQ := &RabbitMQ{
 		QueueName: queueName,

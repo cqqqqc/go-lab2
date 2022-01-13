@@ -1,12 +1,11 @@
-package rabbitMQ
+package consumer
 
 import (
-	commonEntity "Lab2/common/entity"
-	"Lab2/user/entity"
-	"Lab2/user/service"
 	"encoding/json"
 	"fmt"
 	"reflect"
+	. "user/entity"
+	"user/service"
 )
 
 //路由模式Step：3、路由模式下消费代码
@@ -59,7 +58,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 	//5、启动协程处理消息
 	//消费者会一直监听管道，启用协程
 	go func() {
-		var demo commonEntity.SimpleDemo
+		var demo SimpleDemo
 		for v := range msgs {
 			fmt.Printf("body = %s\n", v.Body)
 			fmt.Println(reflect.TypeOf(v.Body))
@@ -69,7 +68,7 @@ func (r *RabbitMQ) UserReceiveRouting() {
 				fmt.Println(err)
 			}
 			fmt.Println(demo.Password)
-			var user entity.User
+			var user User
 			user.Name = demo.Name
 			user.StuffNo = demo.StuffNo
 			user.Department = demo.Department
