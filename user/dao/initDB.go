@@ -1,13 +1,13 @@
 package dao
 
 import (
-	"Lab2/user/entity"
 	"fmt"
 	"github.com/go-ini/ini"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"os"
 	"strings"
+	"user/entity"
 )
 
 var Db *gorm.DB

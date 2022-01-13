@@ -1,13 +1,13 @@
 package main
 
 import (
-	"Lab2/common/rabbitMQ"
-	"Lab2/user/dao"
-	"Lab2/user/entity"
-	"Lab2/user/route"
 	"fmt"
 	"github.com/go-ini/ini"
 	"os"
+	"user/dao"
+	"user/entity"
+	"user/rabbitMQ"
+	"user/route"
 )
 
 //type Greeter struct{}

@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Lab2/user/dao"
-	"Lab2/user/entity"
+	"user/dao"
+	"user/entity"
 )
 
 func CreateUser(user *entity.User) (err error) {

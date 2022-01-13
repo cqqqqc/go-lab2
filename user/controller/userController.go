@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"Lab2/user/entity"
-	"Lab2/user/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"user/entity"
+	"user/service"
 )
 
 type login struct {
