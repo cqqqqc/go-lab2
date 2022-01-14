@@ -1,8 +1,8 @@
 package service
 
 import (
-	"Lab2/employee/dao"
-	"Lab2/employee/entity"
+	"employee/dao"
+	"employee/entity"
 )
 
 func CreateEmployee(employee *entity.Employee) (err error) {

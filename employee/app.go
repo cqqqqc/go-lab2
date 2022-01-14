@@ -1,9 +1,10 @@
 package main
 
 import (
-	"Lab2/employee/dao"
-	"Lab2/employee/entity"
-	"Lab2/employee/route"
+	"employee/dao"
+	"employee/entity"
+	producer "employee/producer"
+	"employee/route"
 	"fmt"
 	"github.com/go-ini/ini"
 	"os"
@@ -16,11 +17,13 @@ func main() {
 	//defer dao.Close()
 	//绑定模型
 	dao.Db.AutoMigrate(&entity.Employee{})
-	httpPort, err := ini.Load("employee/conf/app.init")
+	httpPort, err := ini.Load("conf/app.init")
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
 	}
+	producer.UserQueue = producer.NewRabbitMQ("name", "exchange", "user")
+	producer.TaskQueue = producer.NewRabbitMQ("name", "exchange", "task")
 	runPort := httpPort.Section("server").Key("HttpPort").String()
 	//注册路由
 	r := route.SetRouter()

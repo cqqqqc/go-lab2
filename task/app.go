@@ -1,13 +1,13 @@
 package main
 
 import (
-	"Lab2/common/rabbitMQ"
-	"Lab2/task/dao"
-	"Lab2/task/entity"
-	"Lab2/task/route"
 	"fmt"
 	"github.com/go-ini/ini"
 	"os"
+	"task/consumer"
+	"task/dao"
+	"task/entity"
+	"task/route"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 	//defer dao.Close()
 	//绑定模型
 	dao.Db.AutoMigrate(&entity.Task{})
-	httpPort, err := ini.Load("task/conf/app.init")
+	httpPort, err := ini.Load("conf/app.init")
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
@@ -26,7 +26,7 @@ func main() {
 	//注册路由
 	r := route.SetRouter()
 
-	rabbimq := rabbitMQ.NewRabbitMQRouting("name", "task")
+	rabbimq := consumer.NewRabbitMQ("name", "exchange", "task")
 	rabbimq.TaskReceiveRouting()
 
 	//启动端口为8085的项目

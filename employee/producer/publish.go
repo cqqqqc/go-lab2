@@ -1,9 +1,9 @@
-package rabbitMQ
+package producer
 
 import (
-	"common/service"
+	"employee/entity"
+	"employee/service"
 	"encoding/json"
-	"entity"
 	"github.com/streadway/amqp"
 )
 
@@ -31,7 +31,7 @@ func (r *RabbitMQ) PublishgRouting(data entity.SimpleDemo) {
 	//2、发送消息
 	dataBytes, err := json.Marshal(data)
 	if err != nil {
-		service.ErrorHanding(err, "struct to json failed")
+		service.FailOnError(err, "struct to json failed")
 	}
 	err = r.channel.Publish(
 		r.Exchange,

@@ -1,7 +1,7 @@
 package route
 
 import (
-	"Lab2/employee/controller"
+	"employee/controller"
 	"github.com/gin-gonic/gin"
 )
 

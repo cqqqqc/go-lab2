@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"Lab2/employee/entity"
+	"employee/entity"
 	"fmt"
 	"github.com/go-ini/ini"
 	"gorm.io/driver/mysql"
@@ -14,7 +14,7 @@ var Db *gorm.DB
 
 func InitDB() *gorm.DB {
 	// 读取conf配置文件的数据库配置信息
-	dbConfig, err := ini.Load("employee/conf/app.init")
+	dbConfig, err := ini.Load("conf/app.init")
 	if err != nil {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)

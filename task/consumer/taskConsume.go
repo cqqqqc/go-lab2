@@ -3,7 +3,6 @@ package consumer
 import (
 	"encoding/json"
 	"fmt"
-	. "github.com/gityh2021/lab2common"
 	"reflect"
 	"task/entity"
 	"task/service"

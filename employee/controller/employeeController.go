@@ -1,10 +1,9 @@
 package controller
 
 import (
-	commonEntity "Lab2/common/entity"
-	"Lab2/common/rabbitMQ"
-	"Lab2/employee/entity"
-	"Lab2/employee/service"
+	"employee/entity"
+	"employee/producer"
+	"employee/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -15,24 +14,22 @@ func CreateEmployee(c *gin.Context) {
 	//将调用后端的request请求中的body数据根据json格式解析到User结构变量中
 	c.BindJSON(&employee)
 
-	userData := commonEntity.SimpleDemo{
+	userData := entity.SimpleDemo{
 		Name:       employee.Name,
 		StuffNo:    employee.StuffNo,
 		Department: employee.Department,
 		Password:   "123456",
 		Active:     false,
-		Info:       "user",
 	}
-	taskData := commonEntity.SimpleDemo{
+	taskData := entity.SimpleDemo{
 		Name:       employee.Name,
 		StuffNo:    employee.StuffNo,
 		Department: employee.Department,
 		Password:   "123456",
 		Active:     false,
-		Info:       "task",
 	}
-	rabbitMQOne := rabbitMQ.NewRabbitMQRouting("name", "user")
-	rabbitMQTwo := rabbitMQ.NewRabbitMQRouting("name", "task")
+	rabbitMQOne := producer.NewRabbitMQ("name", "exchange", "user")
+	rabbitMQTwo := producer.NewRabbitMQRouting("exchange", "task")
 	rabbitMQOne.PublishgRouting(userData)
 	rabbitMQTwo.PublishgRouting(taskData)
 
