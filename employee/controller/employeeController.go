@@ -14,9 +14,11 @@ func CreateEmployee(c *gin.Context) {
 	//将调用后端的request请求中的body数据根据json格式解析到User结构变量中
 	c.BindJSON(&employee)
 
+	taskNo := service.RandSeq(4)
 	userData := entity.SimpleDemo{
 		Name:       employee.Name,
 		StuffNo:    employee.StuffNo,
+		TaskNo:     taskNo,
 		Department: employee.Department,
 		Password:   "123456",
 		Active:     false,
@@ -24,12 +26,13 @@ func CreateEmployee(c *gin.Context) {
 	taskData := entity.SimpleDemo{
 		Name:       employee.Name,
 		StuffNo:    employee.StuffNo,
+		TaskNo:     taskNo,
 		Department: employee.Department,
 		Password:   "123456",
 		Active:     false,
 	}
-	rabbitMQOne := producer.NewRabbitMQ("name", "exchange", "user")
-	rabbitMQTwo := producer.NewRabbitMQRouting("exchange", "task")
+	rabbitMQOne := producer.NewRabbitMQRouting("name", "exchange")
+	rabbitMQTwo := producer.NewRabbitMQRouting("name", "exchange")
 	rabbitMQOne.PublishgRouting(userData)
 	rabbitMQTwo.PublishgRouting(taskData)
 

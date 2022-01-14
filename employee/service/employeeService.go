@@ -3,8 +3,18 @@ package service
 import (
 	"employee/dao"
 	"employee/entity"
+	"math/rand"
 )
 
+var letters = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
 func CreateEmployee(employee *entity.Employee) (err error) {
 	if err = dao.Db.Create(employee).Error; err != nil {
 		return err
