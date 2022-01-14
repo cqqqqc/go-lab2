@@ -50,3 +50,9 @@ func NewRabbitMQ(queueName string, exchange string, key string) *RabbitMQ {
 	rabbitMQ.failOnErr(err, "获取Channel失败")
 	return rabbitMQ
 }
+
+//路由模式Step：1、创建路由模式下RabbitMQ实例
+func NewRabbitMQRouting(exchangeName string, routingKey string) *RabbitMQ {
+	//创建RabbitMq实例
+	return NewRabbitMQ("", exchangeName, routingKey)
+}

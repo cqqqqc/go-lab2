@@ -3,7 +3,6 @@ package main
 import (
 	"employee/dao"
 	"employee/entity"
-	producer "employee/producer"
 	"employee/route"
 	"fmt"
 	"github.com/go-ini/ini"
@@ -22,8 +21,8 @@ func main() {
 		fmt.Printf("Fail to read file: %v", err)
 		os.Exit(1)
 	}
-	producer.UserQueue = producer.NewRabbitMQ("name", "exchange", "user")
-	producer.TaskQueue = producer.NewRabbitMQ("name", "exchange", "task")
+	//producer.UserQueue = producer.NewRabbitMQ("name", "exchange", "user")
+	//producer.TaskQueue = producer.NewRabbitMQ("name", "exchange", "task")
 	runPort := httpPort.Section("server").Key("HttpPort").String()
 	//注册路由
 	r := route.SetRouter()

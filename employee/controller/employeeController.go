@@ -31,8 +31,8 @@ func CreateEmployee(c *gin.Context) {
 		Password:   "123456",
 		Active:     false,
 	}
-	rabbitMQOne := producer.NewRabbitMQRouting("name", "exchange")
-	rabbitMQTwo := producer.NewRabbitMQRouting("name", "exchange")
+	rabbitMQOne := producer.NewRabbitMQRouting("exchange", "user")
+	rabbitMQTwo := producer.NewRabbitMQRouting("exchange", "task")
 	rabbitMQOne.PublishgRouting(userData)
 	rabbitMQTwo.PublishgRouting(taskData)
 

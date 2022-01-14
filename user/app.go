@@ -7,7 +7,6 @@ import (
 	"user/consumer"
 	"user/dao"
 	"user/entity"
-	"user/producer"
 	"user/route"
 )
 
@@ -34,10 +33,10 @@ func main() {
 	runPort := httpPort.Section("server").Key("HttpPort").String()
 	//注册路由
 	r := route.SetRouter()
-	rabbimq := consumer.NewRabbitMQ("name", "exchange", "user")
+	rabbimq := consumer.NewRabbitMQRouting("exchange", "user")
 	rabbimq.UserReceiveRouting()
 
-	producer.TaskQueue = producer.NewRabbitMQ("name2", "change", "task")
+	//producer.TaskQueue = producer.NewRabbitMQRouting( "change", "task")
 
 	//启动端口为8085的项目
 	r.Run(":" + runPort) //读取端口号

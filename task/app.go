@@ -26,10 +26,10 @@ func main() {
 	//注册路由
 	r := route.SetRouter()
 
-	rabbimq1 := consumer.NewRabbitMQ("name", "exchange", "task")
+	rabbimq1 := consumer.NewRabbitMQRouting("exchange", "task")
 	rabbimq1.TaskReceiveRouting()
 
-	rabbimq2 := consumer.NewRabbitMQ("name2", "change", "task")
+	rabbimq2 := consumer.NewRabbitMQRouting("change", "task")
 	rabbimq2.TaskReceiveRouting2()
 
 	//启动端口为8085的项目

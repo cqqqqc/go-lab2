@@ -7,12 +7,6 @@ import (
 	"github.com/streadway/amqp"
 )
 
-//路由模式Step：1、创建路由模式下RabbitMQ实例
-func NewRabbitMQRouting(exchangeName string, routingKey string) *RabbitMQ {
-	//创建RabbitMq实例
-	return NewRabbitMQ("", exchangeName, routingKey)
-}
-
 //路由模式Step：2、路由模式下生产代码
 func (r *RabbitMQ) PublishgRouting(data entity.SimpleDemo) {
 	//1、尝试创建交换机

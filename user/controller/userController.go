@@ -81,6 +81,7 @@ func UpdateUser(c *gin.Context) {
 		TaskNo:   "",
 		Password: "123456",
 		Active:   false,
+		Info:     "task",
 	}
 	rabbitMQ := producer.NewRabbitMQRouting("change", "task")
 	rabbitMQ.PublishgRouting(taskData)
